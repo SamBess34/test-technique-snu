@@ -100,7 +100,7 @@ const Create = () => {
       {open ? (
         <div className=" absolute top-0 bottom-0 left-0 right-0  bg-[#00000066] flex justify-center p-[1rem] z-50 " onClick={() => setOpen(false)}>
           <div
-            className="w-full md:w-[60%] h-fit  bg-[white] p-[25px] rounded-md"
+            className="w-full md:w-[60%] h-fit  bg-[white] p-[25px] rounded-md relative"
             onClick={(e) => {
               e.stopPropagation();
             }}>
@@ -125,10 +125,18 @@ const Create = () => {
               {({ values, handleChange, handleSubmit, isSubmitting }) => (
                 <React.Fragment>
                   <div>
+                    <button
+                      aria-label="Close modal"
+                      className="absolute top-4 right-5 m-[-12px] w-6 h-6 text-gray-600 text-[22px] hover:text-gray-700 focus:outline-none"
+                      onClick={() => {
+                        setOpen(false);
+                      }}>
+                      x
+                    </button>
                     <div className="flex justify-between flex-wrap">
                       <div className="w-full md:w-[48%] mt-2">
                         <div className="text-[14px] text-[#212325] font-medium	">Name</div>
-                        <input className="projectsInput text-[14px] font-normal text-[#212325] rounded-[10px]" name="username" value={values.username} onChange={handleChange} />
+                        <input className="projectsInput text-[14px] font-normal text-[#212325] rounded-[10px]" name="name" value={values.name} onChange={handleChange} />
                       </div>
                       <div className="w-full md:w-[48%] mt-2">
                         <div className="text-[14px] text-[#212325] font-medium	">Email</div>

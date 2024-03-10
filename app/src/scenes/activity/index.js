@@ -36,7 +36,10 @@ const Activity = () => {
       <div className="flex flex-wrap gap-5 p-2 md:!px-8">
         <SelectProject
           value={project}
-          onChange={(e) => setProject(e.name)}
+          onChange={(e) => {
+            console.log("e", e);
+            e !== undefined ? setProject(e.name) : setProject("");
+          }}
           className="w-[180px] bg-[#FFFFFF] text-[#212325] py-[10px] px-[14px] rounded-[10px] border-r-[16px] border-[transparent] cursor-pointer shadow-sm font-normal text-[14px]"
         />
         <SelectMonth start={-3} indexDefaultValue={3} value={date} onChange={(e) => setDate(e.target.value)} showArrows />
@@ -50,18 +53,40 @@ const Activities = ({ date, user, project }) => {
   const [activities, setActivities] = useState([]);
   const [open, setOpen] = useState(null);
 
+  // Filter activities based on the selected project (filter)
   useEffect(() => {
     (async () => {
-      const { data } = await api.get(`/activity?date=${date.getTime()}&user=${user.name}&project=${project}`);
-      const projects = await api.get(`/project/list`);
+      // Get the list of activities
+      const { data: activitiesData } = await api.get(`/activity?date=${date.getTime()}&user=${user.name}`);
+      // Get the list of projects
+      const { data: projectsData } = await api.get(`/project/list`);
+
+      // Filter the activities based on the selected project
+      const filteredActivities = activitiesData.filter((activity) => {
+        // Return all activities if there is no selected project
+        if (!project) return true;
+        // Find the corresponding project based on its name
+        const matchingProject = projectsData.find((projectData) => projectData.name === project);
+        // Check if the activity belongs to the selected project
+        return activity.projectId === matchingProject?._id;
+      });
+
+      // Update the activities state with the filtered activities
       setActivities(
-        data.map((activity) => {
-          return { ...activity, projectName: (activity.projectName = projects.data.find((project) => project._id === activity.projectId)?.name) };
+        filteredActivities.map((activity) => {
+          // Find the corresponding project based on its id
+          const matchingProject = projectsData.find((project) => project._id === activity.projectId);
+          // Set the projectName based on the found project (if exists)
+          const projectName = matchingProject ? matchingProject.name : activity.projectName;
+          // Merge the activity and the computed projectName
+          return { ...activity, projectName };
         }),
       );
+
+      // Reset the dropdown menu state
       setOpen(null);
     })();
-  }, [date]);
+  }, [date, project]);
 
   const days = getDaysInMonth(date.getMonth(), date.getFullYear());
   const onAddActivities = (project) => {
