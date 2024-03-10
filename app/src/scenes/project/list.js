@@ -132,7 +132,7 @@ const Create = ({ onChangeSearch }) => {
             setOpen(false);
           }}>
           <div
-            className="w-full md:w-[60%] max-h-[200px] bg-[white] p-[25px] rounded-md"
+            className="w-full md:w-[60%] max-h-[200px] bg-[white] p-[25px] rounded-md relative"
             onClick={(e) => {
               e.stopPropagation();
             }}>
@@ -154,7 +154,15 @@ const Create = ({ onChangeSearch }) => {
               }}>
               {({ values, handleChange, handleSubmit, isSubmitting }) => (
                 <React.Fragment>
-                  <div className="w-full md:w-6/12 text-left">
+                  <button
+                    aria-label="Close modal"
+                    className="absolute top-4 right-5 m-[-12px] w-6 h-6 text-gray-600 text-[22px] hover:text-gray-700 focus:outline-none"
+                    onClick={() => {
+                      setOpen(false);
+                    }}>
+                    x
+                  </button>
+                  <div className="w-full md:w-6/12 text-left ">
                     <div>
                       <div className="text-[14px] text-[#212325] font-medium	">Name</div>
                       <input className="projectsInput text-[14px] font-normal text-[#212325] rounded-[10px]" name="name" value={values.name} onChange={handleChange} />
