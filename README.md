@@ -15,7 +15,7 @@
 ## Nouvelle Fonctionnalité : Exportation des données au format CSV
 - Ajout de la possibilité d'exporter son activité mensuelle sur un ou plusieurs projets au format csv.
 
-## Feedback à propose du code et difficultés rencontrées
+## Feedback à propos du code et difficultés rencontrées
 - Pour être honnête, je n'ai pas rencontré de problème majeur pour comprendre l'intégralité du projet. Les premières heures ont été consacrées à la revue du code. Même si, parfois, les commentaires faisaient défaut, le code était globalement lisible. Comme je n'ai effectué aucune modification du côté du back-end durant ce test, j'ai néanmoins été tenté de modifier les contrôleurs. J'ai pour habitude de créer mes routes dans un ou plusieurs fichiers router et de les relier à mes contrôleurs pour une meilleure lisibilité. J'ai cependant observé des similitudes dans l'architecture avec ce que je propose lors de la création de mes projets.
 
 ## Setup api
