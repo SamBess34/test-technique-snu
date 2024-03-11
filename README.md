@@ -10,7 +10,6 @@
 - Mise jour à de la list des projets après la création d'un nouveau.
 
 
-
 ## Setup api
 - cd api
 - Run `npm i`
