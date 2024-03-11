@@ -14,6 +14,14 @@ const ProjectList = () => {
 
   const history = useHistory();
 
+  // Function to add a new project to both lists - 'projects' and 'activeProjects'
+  const addProject = (newProject) => {
+    // Updating the 'projects' state with the spread operator
+    setProjects((prevProjects) => [...prevProjects, newProject]);
+    // Same applies to the 'activeProjects' state
+    setActiveProjects((prevActiveProjects) => [...prevActiveProjects, newProject]);
+  };
+
   useEffect(() => {
     (async () => {
       const { data: u } = await api.get("/project");
@@ -35,7 +43,7 @@ const ProjectList = () => {
 
   return (
     <div className="w-full p-2 md:!px-8">
-      <Create onChangeSearch={handleSearch} />
+      <Create onChangeSearch={handleSearch} addProject={addProject} />
       <div className="py-3">
         {activeProjects.map((hit) => {
           return (
@@ -92,9 +100,8 @@ const Budget = ({ project }) => {
   return <ProgressBar percentage={width} max={budget_max_monthly} value={total} />;
 };
 
-const Create = ({ onChangeSearch }) => {
+const Create = ({ onChangeSearch, addProject }) => {
   const [open, setOpen] = useState(false);
-
   return (
     <div className="mb-[10px] ">
       <div className="flex justify-between flex-wrap">
@@ -145,6 +152,7 @@ const Create = ({ onChangeSearch }) => {
                   const res = await api.post("/project", values);
                   if (!res.ok) throw res;
                   toast.success("Created!");
+                  addProject(res.data);
                   setOpen(false);
                 } catch (e) {
                   console.log(e);
