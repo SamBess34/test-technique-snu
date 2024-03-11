@@ -8,11 +8,6 @@
 - Correction du filtre par projet sur la page listant les activités
 - Correction du bouton edit d'un projet. Ajout de la possibilité d'éditer les informations d'un projet
 - Mise jour à de la list des projets après la création d'un nouveau.
-<<<<<<< HEAD
-
-=======
->>>>>>> d779ca5 (Updated README)
-
 
 ## Setup api
 - cd api
