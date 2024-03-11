@@ -7,6 +7,7 @@
 - Amélioration de l'expérience utilisateur en ajoutant un X pour fermer les modales "Create new project" & "Create new user"
 - Correction du filtre par projet sur la page listant les activités
 - Correction du bouton edit d'un projet. Ajout de la possibilité d'éditer les informations d'un projet
+- Mise jour à de la list des projets après la création d'un nouveau.
 
 
 
