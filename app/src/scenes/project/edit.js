@@ -13,11 +13,10 @@ export default function EditProject() {
   const [bufferOtherLink, setBufferOtherLink] = useState("");
   const [bufferOtherLinkLabel, setBufferOtherLinkLabel] = useState("");
   const { id } = useParams();
-
   useEffect(() => {
     (async () => {
-      const { data: u } = await api.get(`/project/${id}`);
-      setProject(u);
+      const { data: projectData } = await api.get(`/project/${id}`);
+      setProject(projectData[0]);
     })();
   }, []);
 
@@ -55,7 +54,9 @@ export default function EditProject() {
                 console.log(e);
                 toast.error("Some Error!");
               }
-            }}>
+            }}
+            // Specifies the list of fields managed by Formik. (values)
+            fields={["name", "lead", "status", "budget_max_monthly", "paymentCycle", "description", "objective", "website", "links"]}>
             {({ values, handleChange, handleSubmit, isSubmitting }) => (
               <React.Fragment>
                 <div className="flex gap-4 pl-4 pt-4">
