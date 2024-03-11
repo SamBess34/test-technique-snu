@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { saveAs } from "file-saver";
 import { MdDeleteForever } from "react-icons/md";
 import { useSelector } from "react-redux";
 import Loader from "../../components/loader";
@@ -153,6 +154,59 @@ const Activities = ({ date, user, project }) => {
     return (activities.reduce((acc, a) => acc + a.total, 0) / 8).toFixed(2);
   };
 
+  function handleDownloadCsv() {
+    // Format activities for display and store result in 'displayActivities'.
+    const displayActivities = formatActivitiesForDisplay(activities);
+
+    // Initialize 'csvContent' string to hold CSV contents.
+    let csvContent = "";
+
+    // Iterate through 'displayActivities' and construct CSV lines.
+    displayActivities.forEach((item) => {
+      const [projectName, formattedDate, total] = item.split("; ");
+
+      // Append constructed CSV line to 'csvContent'.
+      csvContent += `${projectName},${formattedDate},${total}\n`;
+    });
+
+    // Construct encoded URI for generated CSV data.
+    const encodedUri = encodeURI("data:text/csv;charset=utf-8," + csvContent);
+
+    // Create anchor element and configure it for CSV download.
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "myExport.csv");
+    link.click();
+  }
+
+  function formatActivitiesForDisplay(activities) {
+    // Map activities to transformed objects with additional properties.
+    return activities
+      .map((activity) => {
+        const { date, detail } = activity;
+        const projectName = activity.projectName;
+
+        // Format date using locale setting 'fr-FR'.
+        const formattedDate = new Date(date).toLocaleDateString("fr-FR");
+
+        // Calculate total hours worked on project.
+        const total = detail.reduce((sum, entry) => sum + entry.value, 0);
+
+        // Return transformed object with required properties.
+        return {
+          projectName,
+          formattedDate,
+          values: detail.map((entry) => entry.value),
+          total,
+        };
+      })
+      .map((item) => {
+        // Map to join properties with separator "; " and create a single string.
+        const { projectName, formattedDate, total } = item;
+        return [`Project: ${projectName}`, `Start date: ${formattedDate}`, `Total hours this month: ${total}`].join("; ");
+      });
+  }
+
   return (
     <div className="flex flex-wrap py-3 gap-4 text-black">
       <div className="w-screen md:w-full p-2 md:!px-8">
@@ -257,6 +311,9 @@ const Activities = ({ date, user, project }) => {
             </div>
             <button className="m-3 w-[82px] h-[48px] py-[12px] px-[22px] bg-[#0560FD] text-[16px] font-medium text-[#fff] rounded-[10px]" onClick={onSave}>
               Save
+            </button>
+            <button className="m-3 w-[140px] h-[48px] py-[12px] px-[22px] bg-[#0560FD] text-[16px] font-medium text-[#fff] rounded-[10px]" onClick={handleDownloadCsv}>
+              Export to csv
             </button>
           </div>
         )}
