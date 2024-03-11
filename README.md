@@ -9,9 +9,6 @@
 - Correction du bouton edit d'un projet. Ajout de la possibilité d'éditer les informations d'un projet
 - Mise jour à de la list des projets après la création d'un nouveau.
 
-## Nouvelle Fonctionnalité : Exportation des données au format CSV
-- Ajout de la possibilité d'exporter son activité mensuelle sur un ou plusieurs projets au format csv.
-
 ## Setup api
 - cd api
 - Run `npm i`
